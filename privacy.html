@@ -98,6 +98,7 @@
   <ul>
     <li>Capture receipt photos after shopping trips</li>
     <li>Receipt images are stored in Firebase Cloud Storage and linked to your shopping lists</li>
+    <li>When you scan a receipt, the photo is sent through our server on Supabase to our receipt-reading service, hosted on Hugging Face, which reads the shop, date, total and item lines and returns them to the app. The service is used only to read your receipt</li>
     <li>You can delete receipt images at any time</li>
   </ul>
 

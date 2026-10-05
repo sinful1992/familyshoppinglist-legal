@@ -49,9 +49,13 @@ Users can delete their account in-app via Settings > Delete Account. All persona
 
 | Data Type | Declared |
 |---|---|
-| Photos | No |
+| Photos | Yes |
 
-> **Why not declared:** Receipt photos are stored locally on the device only and never transmitted off-device. Google Play defines "collected" as data transmitted off the user's device — local-only storage is exempt.
+> **Declared (corrected 2026-10):** receipt photos leave the device. They are uploaded to Firebase Cloud Storage
+> (`receipts/{familyGroupId}/{listId}/{ts}.jpg`, ImageStorageManager) and, when scanned, sent via the Supabase
+> `ocr-proxy` edge function to the receipt OCR service on Hugging Face (ReceiptOCRService). Play answers:
+> **collected: yes, shared: no** (Google, Supabase and Hugging Face act as service providers), purpose
+> **App functionality**, **optional** (scanning a receipt is the user's choice).
 
 ### Calendar
 
@@ -143,7 +147,7 @@ Users can delete their account in-app via Settings > Delete Account. All persona
 | Why collected | App functionality |
 | Why shared | App functionality |
 
-**Explanation:** Shopping list item names and prices that users manually enter are synced to Firebase RTDB for real-time collaboration. Shared with family group members so they can see shared shopping lists. Prices are optional. Receipt images are stored locally only and are NOT transmitted off-device. OCR processing is currently disabled.
+**Explanation:** Shopping list item names and prices that users manually enter are synced to Firebase RTDB for real-time collaboration. Shared with family group members so they can see shared shopping lists. Prices are optional. Receipt images are covered under Photos (uploaded to Firebase Cloud Storage; scans are read by the OCR service via Supabase).
 
 ---
 
@@ -236,6 +240,7 @@ Users can delete their account in-app via Settings > Delete Account. All persona
 | Supabase | Supabase Inc. | FCM tokens, user ID, family group ID | Push notification delivery |
 | RevenueCat | RevenueCat Inc. | User ID, subscription status | Subscription management |
 | Google Play Billing | Google | Payment info (not accessed by app) | In-app purchases |
+| Receipt OCR (Supabase ocr-proxy → Hugging Face Space) | Supabase Inc., Hugging Face | Receipt photo | Reading receipts (service provider) |
 | Google AdMob | Google | Advertising ID, IP address, device info, ad interactions | Rewarded ads on the free tier (personalised only with consent) |
 
 ---
@@ -245,7 +250,7 @@ Users can delete their account in-app via Settings > Delete Account. All persona
 - Location data
 - Payment card details (handled by Google Play)
 - Contacts, calendar, phone data
-- Photos/videos (receipt images are local-only)
+- Videos
 - Search history
 - Installed apps
 - Audio, files, or documents
