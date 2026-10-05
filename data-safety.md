@@ -214,11 +214,13 @@ Users can delete their account in-app via Settings > Delete Account. All persona
 | Collected | Yes |
 | Shared | Yes |
 | Processed ephemerally | No |
-| Required or optional | Optional — push notifications are optional |
-| Why collected | App functionality |
-| Why shared | App functionality |
+| Required or optional | Required (free tier: advertising ID via AdMob); push tokens are optional |
+| Why collected | App functionality, Advertising or marketing |
+| Why shared | App functionality, Advertising or marketing |
 
 **Explanation:** FCM device tokens are collected when users enable push notifications for urgent shopping items. Tokens are stored in Supabase and used to deliver notifications via Firebase Cloud Messaging. Users can choose not to enable notifications.
+
+**Advertising ID (AdMob):** on the free tier the Google Mobile Ads SDK (rewarded ads before a receipt scan or urgent item) collects the Android advertising ID and shares it with Google for ad serving, measurement, fraud prevention and, with UMP consent in the UK/EEA, personalisation. The merged manifest declares `com.google.android.gms.permission.AD_ID` and `ACCESS_ADSERVICES_AD_ID`. Premium/Family users: the SDK is not initialised.
 
 ---
 
@@ -234,13 +236,13 @@ Users can delete their account in-app via Settings > Delete Account. All persona
 | Supabase | Supabase Inc. | FCM tokens, user ID, family group ID | Push notification delivery |
 | RevenueCat | RevenueCat Inc. | User ID, subscription status | Subscription management |
 | Google Play Billing | Google | Payment info (not accessed by app) | In-app purchases |
+| Google AdMob | Google | Advertising ID, IP address, device info, ad interactions | Rewarded ads on the free tier (personalised only with consent) |
 
 ---
 
 ## Data NOT Collected
 
 - Location data
-- Advertising ID (IDFA/GAID)
 - Payment card details (handled by Google Play)
 - Contacts, calendar, phone data
 - Photos/videos (receipt images are local-only)
