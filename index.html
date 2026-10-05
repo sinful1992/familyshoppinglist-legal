@@ -163,7 +163,7 @@
           <h1>One shopping list for the whole family.</h1>
           <p class="lede">Add it at home, and it's on everyone's phone. Snap the receipt at the till, and next time you'll know what you paid.</p>
           <div class="cta" id="cta">
-            <!-- Phase 1 (closed testing). At production, set data-phase="live" on <body>: the Play badge shows and "Join testing" hides. -->
+            <!-- Phase 1 (closed testing). At production, set PHASE = 'live' in the script at the bottom: the Play badge shows and "Join testing" hides. -->
             <a class="btn when-testing" href="#join">Join the testing</a>
             <a class="play-badge when-live" id="play-badge" href="https://play.google.com/store/apps/details?id=com.familyshoppinglist.app" hidden>
               <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="168" height="56" style="width:auto">
@@ -176,10 +176,10 @@
         <div class="list-card" aria-hidden="true">
           <h2>Saturday shop</h2>
           <div class="item done"><span class="box"></span><span class="name">Semi-skimmed milk</span><span class="price">£1.45 last time</span></div>
-          <div class="item"><span class="box"></span><span class="name">Bananas</span><span class="who">added by Mum</span></div>
-          <div class="item"><span class="box"></span><span class="name">Plasters</span><span class="tag">Urgent</span></div>
+          <div class="item"><span class="box"></span><span class="name">Bananas</span><span class="who">× 6</span></div>
+          <div class="item"><span class="box"></span><span class="name">Plasters</span><span class="tag">Urgent</span><span class="who">from Sam</span></div>
           <div class="item done"><span class="box"></span><span class="name">Bread</span><span class="price">£1.40 last time</span></div>
-          <div class="item"><span class="box"></span><span class="name">Washing-up liquid</span><span class="who">added by Sam</span></div>
+          <div class="item"><span class="box"></span><span class="name">Washing-up liquid</span><span class="who">× 2</span></div>
           <div class="item"><span class="box"></span><span class="name">Eggs</span></div>
         </div>
       </div>
@@ -287,7 +287,7 @@
 
       // Carry utm_* from this page's URL into the Play badge, so installs that come through here keep their source.
       var params = new URLSearchParams(location.search), utm = [];
-      params.forEach(function (v, k) { if (/^utm_(source|medium|campaign|term|content)$/.test(k)) utm.push(k + '=' + v); });
+      params.forEach(function (v, k) { if (/^utm_(source|medium|campaign|term|content)$/.test(k)) utm.push(k + '=' + encodeURIComponent(v)); });
       if (utm.length) {
         var badge = document.getElementById('play-badge');
         badge.href += '&referrer=' + encodeURIComponent(utm.join('&'));
