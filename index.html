@@ -1,26 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Family Shopping List - Legal</title>
+  <title>Family Shopping List: one shared list, and what you paid last time</title>
+  <meta name="description" content="A shared shopping list for the whole family on Android. Add from any phone, see it on everyone's. Scan the receipt at the till and keep price history and a grocery budget.">
+  <link rel="canonical" href="https://sinful1992.github.io/familyshoppinglist-legal/">
+  <meta name="theme-color" content="#2e7d32">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Family Shopping List">
+  <meta property="og:title" content="Family Shopping List: one list for the whole family">
+  <meta property="og:description" content="Add it at home, it's on everyone's phone. Snap the receipt at the till, and next time you'll know what you paid.">
+  <meta property="og:url" content="https://sinful1992.github.io/familyshoppinglist-legal/">
+  <meta property="og:image" content="https://sinful1992.github.io/familyshoppinglist-legal/assets/og-image.jpg">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="500">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Family Shopping List: one list for the whole family">
+  <meta name="twitter:description" content="Add it at home, it's on everyone's phone. Snap the receipt at the till, and next time you'll know what you paid.">
+  <meta name="twitter:image" content="https://sinful1992.github.io/familyshoppinglist-legal/assets/og-image.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Family Shopping List",
+    "operatingSystem": "Android",
+    "applicationCategory": "LifestyleApplication",
+    "description": "A shared shopping list for the whole family, with receipt scanning, price history and a grocery budget.",
+    "url": "https://sinful1992.github.io/familyshoppinglist-legal/",
+    "image": "https://sinful1992.github.io/familyshoppinglist-legal/assets/icon-192.png",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "GBP" }
+  }
+  </script>
+
   <style>
+    :root {
+      --bg: #f6f4ee;
+      --paper: #fffdf7;
+      --ink: #1d2a1f;
+      --muted: #5a6659;
+      --line: #e4dfd1;
+      --green: #2e7d32;
+      --green-ink: #ffffff;
+      --green-soft: #e3f1e1;
+      --amber: #b45309;
+      --amber-soft: #fdf0dc;
+      --rule: #c9dcef;
+      --shadow: 0 1px 2px rgba(29, 42, 31, .06), 0 8px 24px rgba(29, 42, 31, .08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141814;
+        --paper: #1d221d;
+        --ink: #e8ece6;
+        --muted: #a3ada1;
+        --line: #2e352e;
+        --green: #66bb6a;
+        --green-ink: #0d1a0e;
+        --green-soft: #1f3321;
+        --amber: #f0a64a;
+        --amber-soft: #3a2a14;
+        --rule: #2c3a48;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+      }
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 40px 24px 60px; background: #fafafa; text-align: center; }
-    h1 { font-size: 28px; margin-bottom: 8px; color: #111; }
-    p { margin: 8px 0 32px; color: #666; }
-    .links { display: flex; flex-direction: column; gap: 16px; }
-    a { display: block; padding: 16px 24px; background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; text-decoration: none; color: #007AFF; font-size: 18px; font-weight: 600; transition: background 0.2s; }
-    a:hover { background: #f0f7ff; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 17px;
+    }
+    a { color: var(--green); }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+    header.top { display: flex; align-items: center; gap: 10px; padding: 18px 0; }
+    header.top img { width: 36px; height: 36px; border-radius: 9px; }
+    header.top span { font-weight: 700; letter-spacing: -.01em; }
+
+    .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; padding: 40px 0 72px; }
+    .hero h1 { font-size: clamp(34px, 5.2vw, 54px); line-height: 1.08; letter-spacing: -.025em; margin-bottom: 18px; }
+    .hero p.lede { font-size: 19px; color: var(--muted); max-width: 34em; margin-bottom: 28px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-block; padding: 14px 22px; border-radius: 12px; font-weight: 700; text-decoration: none;
+      background: var(--green); color: var(--green-ink);
+    }
+    .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .note { font-size: 14px; color: var(--muted); margin-top: 14px; }
+    .play-badge img { height: 56px; display: block; }
+
+    /* The hero picture: a list on lined paper */
+    .list-card {
+      background: var(--paper); border-radius: 14px; box-shadow: var(--shadow); padding: 22px 22px 18px;
+      transform: rotate(-1.2deg); border: 1px solid var(--line);
+      background-image: repeating-linear-gradient(to bottom, transparent 0 39px, var(--rule) 39px 40px);
+      background-position: 0 58px;
+    }
+    .list-card h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; height: 28px; }
+    .item { display: flex; align-items: center; gap: 12px; height: 40px; font-size: 17px; }
+    .box { width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--muted); flex: none; }
+    .done .box { background: var(--green); border-color: var(--green); position: relative; }
+    .done .box::after { content: ""; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px; border: solid var(--green-ink); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    .done .name { text-decoration: line-through; color: var(--muted); }
+    .who { margin-left: auto; font-size: 13px; color: var(--muted); }
+    .tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: var(--amber-soft); color: var(--amber); }
+    .price { margin-left: auto; font-size: 13px; color: var(--green); font-variant-numeric: tabular-nums; }
+
+    section { padding: 64px 0; border-top: 1px solid var(--line); }
+    section h2.s { font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -.02em; line-height: 1.15; margin-bottom: 10px; }
+    section p.sub { color: var(--muted); max-width: 40em; margin-bottom: 32px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+    .card h3 { font-size: 19px; margin-bottom: 10px; }
+    .card ul { list-style: none; }
+    .card li { padding: 6px 0 6px 22px; position: relative; color: var(--muted); }
+    .card li::before { content: ""; position: absolute; left: 2px; top: 15px; width: 8px; height: 8px; border-radius: 2px; background: var(--green); }
+    .card li strong { color: var(--ink); font-weight: 600; }
+
+    .fair { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    .fair dl { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 8px 22px; }
+    .fair dt { font-weight: 700; padding-top: 14px; }
+    .fair dd { color: var(--muted); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .fair dd:last-child { border-bottom: 0; }
+
+    ol.steps { list-style: none; counter-reset: s; display: grid; gap: 14px; max-width: 640px; }
+    ol.steps li { counter-increment: s; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 18px 64px; position: relative; }
+    ol.steps li::before {
+      content: counter(s); position: absolute; left: 18px; top: 16px; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--green-soft); color: var(--green); font-weight: 800; display: grid; place-items: center;
+    }
+    ol.steps strong { display: block; }
+    ol.steps span { color: var(--muted); }
+    .android-only { margin-top: 18px; font-size: 15px; color: var(--muted); }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 15px; color: var(--muted); }
+    footer nav { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 10px; }
+
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; gap: 36px; padding-top: 16px; }
+      .grid, .fair { grid-template-columns: 1fr; }
+      .list-card { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
 </head>
 <body>
-  <h1>Family Shopping List</h1>
-  <p>Legal Documents</p>
-  <div class="links">
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-    <a href="delete-account.html">Delete Account</a>
+  <div class="wrap">
+    <header class="top">
+      <img src="assets/icon-192.png" alt="" width="36" height="36">
+      <span>Family Shopping List</span>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div>
+          <h1>One shopping list for the whole family.</h1>
+          <p class="lede">Add it at home, and it's on everyone's phone. Snap the receipt at the till, and next time you'll know what you paid.</p>
+          <div class="cta" id="cta">
+            <!-- Phase 1 (closed testing). At production, set data-phase="live" on <body>: the Play badge shows and "Join testing" hides. -->
+            <a class="btn when-testing" href="#join">Join the testing</a>
+            <a class="play-badge when-live" id="play-badge" href="https://play.google.com/store/apps/details?id=com.familyshoppinglist.app" hidden>
+              <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="168" height="56" style="width:auto">
+            </a>
+            <a class="btn ghost" href="#features">See what it does</a>
+          </div>
+          <p class="note when-testing">Android. Free, with ads. It's in testing now, so we're looking for families to try it.</p>
+        </div>
+
+        <div class="list-card" aria-hidden="true">
+          <h2>Saturday shop</h2>
+          <div class="item done"><span class="box"></span><span class="name">Semi-skimmed milk</span><span class="price">£1.45 last time</span></div>
+          <div class="item"><span class="box"></span><span class="name">Bananas</span><span class="who">added by Mum</span></div>
+          <div class="item"><span class="box"></span><span class="name">Plasters</span><span class="tag">Urgent</span></div>
+          <div class="item done"><span class="box"></span><span class="name">Bread</span><span class="price">£1.40 last time</span></div>
+          <div class="item"><span class="box"></span><span class="name">Washing-up liquid</span><span class="who">added by Sam</span></div>
+          <div class="item"><span class="box"></span><span class="name">Eggs</span></div>
+        </div>
+      </div>
+
+      <section id="features">
+        <h2 class="s">Why it beats a list on paper</h2>
+        <p class="sub">It started with a scrunched-up list that went round the shop in a pocket, or got left on the kitchen table. The one thing nobody forgets is their phone.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>One shared list</h3>
+            <ul>
+              <li><strong>Everyone adds, everyone sees.</strong> Items show up on every phone in the family straight away.</li>
+              <li><strong>Join with a code.</strong> One invitation code brings the household in.</li>
+              <li><strong>No signal? Still works.</strong> It syncs when you're back online.</li>
+              <li><strong>Urgent items</strong> notify the family, for when it's needed today.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What did we pay last time?</h3>
+            <ul>
+              <li><strong>Photograph the receipt.</strong> Shop, date, total and each line are read for you.</li>
+              <li><strong>Price history</strong> for each item, from your own shopping.</li>
+              <li><strong>Compare shops</strong> for the things you buy most.</li>
+              <li><strong>Every trip kept</strong> with its receipt.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Your shop, your budget</h3>
+            <ul>
+              <li><strong>Your aisle order.</strong> Drag categories into the order you walk your shop, and the list follows it next time.</li>
+              <li><strong>Monthly grocery budget</strong> with a warning as you get close.</li>
+              <li><strong>Spending</strong> by category, by shop and over time.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="fair">
+          <div>
+            <h2 class="s">Free, and honest about the ads</h2>
+            <p class="sub">Every feature works on the free version. Nothing is locked behind a subscription.</p>
+          </div>
+          <dl>
+            <dt>Free</dt>
+            <dd>Everything, with ads. Scanning a receipt or raising an urgent item shows an ad first.</dd>
+            <dt>Premium</dt>
+            <dd>No ads for you.</dd>
+            <dt>Family</dt>
+            <dd>No ads for everyone in your family group.</dd>
+          </dl>
+        </div>
+      </section>
+
+      <section id="join" class="when-testing">
+        <h2 class="s">Join the testing</h2>
+        <p class="sub">The app is in closed testing on Google Play before it goes public. Testers get it free, and what you tell us shapes the release. Best of all: bring your household and use it for your real weekly shop for two weeks.</p>
+        <ol class="steps">
+          <li>
+            <strong>Join the testers' group</strong>
+            <span id="group-step">Use the Google account on your Android phone. <a id="group-link" href="#join">Tester group link coming soon</a></span>
+          </li>
+          <li>
+            <strong>Accept the invite on Google Play</strong>
+            <span><a href="https://play.google.com/apps/testing/com.familyshoppinglist.app">Open the testing page</a> with the same account and tap "Become a tester".</span>
+          </li>
+          <li>
+            <strong>Install, then create or join a family</strong>
+            <span>Make a family group and share the code with your household. Each person who joins needs to do steps 1 and 2 too.</span>
+          </li>
+          <li>
+            <strong>Use it for your weekly shop</strong>
+            <span>Please keep it installed for at least 14 days. Found a bug or have an idea? Post it in the testers' group.</span>
+          </li>
+        </ol>
+        <p class="android-only">Android only for now, sorry iPhone users.</p>
+      </section>
+    </main>
+
+    <footer>
+      <nav>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="delete-account.html">Delete Account</a>
+      </nav>
+      <p>Family Shopping List · Made in the UK</p>
+    </footer>
   </div>
+
+  <script>
+    // Phase switch and tester group link: the two things that change after launch.
+    var PHASE = 'testing';          // 'testing' until production access, then 'live'
+    var TESTER_GROUP_URL = '';      // Google Group URL once USER creates it (growth/links.md)
+
+    (function () {
+      var live = PHASE === 'live';
+      document.querySelectorAll('.when-testing').forEach(function (el) { el.hidden = live; });
+      document.querySelectorAll('.when-live').forEach(function (el) { el.hidden = !live; });
+
+      if (TESTER_GROUP_URL) {
+        var a = document.getElementById('group-link');
+        a.href = TESTER_GROUP_URL;
+        a.textContent = 'Join the group';
+      }
+
+      // Carry utm_* from this page's URL into the Play badge, so installs that come through here keep their source.
+      var params = new URLSearchParams(location.search), utm = [];
+      params.forEach(function (v, k) { if (/^utm_(source|medium|campaign|term|content)$/.test(k)) utm.push(k + '=' + v); });
+      if (utm.length) {
+        var badge = document.getElementById('play-badge');
+        badge.href += '&referrer=' + encodeURIComponent(utm.join('&'));
+      }
+    })();
+  </script>
 </body>
 </html>
